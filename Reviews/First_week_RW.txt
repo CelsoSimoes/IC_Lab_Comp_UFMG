@@ -1,0 +1,29 @@
+Link:https://docs.google.com/document/d/166zoNS42Whcihg_17OLs629AwXB7ZaTcqYNZuZZKsS8/edit?usp=sharing
+
+First week and first Seminar: 3 papers, what to do:
+1) What's the problem that the paper solves.
+2) What are some general ideas that the paper brings in.
+3) Text organization: context-problem-solution-results.
+4) Writing style: what's clear, what's not clear.
+-------------------------------------------------------
+Towards Constant-Time Foundations for the New
+Spectre Era
+(Relativo aos fundamentos do Tempo Constante para a Nova Era do Espectro)
+Spectre, é uma falha de segurança encontrada na maioria dos microprocessadores modernos, possibilitando ataques ao código.
+
+1 - O Artigo se refere aos algoritmos que possuem Complexidade de execução O(1), ou complexidade de “Tempo Constante”. O Artigo soluciona o problema dos vazamentos de informações por processadores por meio de novos modelos de ataque Spectre e ataques utilizando microarquitetura.
+2 - O artigo Apresenta o problema dos algoritmos de Tempo Constante estarem ficando ultrapassados e assim, vulneráveis a ataques maliciosos. e Ao decorrer do artigo ele tentar apresentar isso, e propor uma solução para o mesmo.
+Na seção dois são apresentadas as duas formas funcionais de atacar processadores que se baseiam nos conceitos do “tempo-constante”. A primeira utiliza a forma v1 Spectre para obter o vazamento de informação por meio de uma execução especulativa que ignora a checagem de limites. A Segunda utiliza uma nova forma de falha Spectre, baseadas nos conceitos da microarquitetura e especulação dos processadores para combinar pares de dados que se encaixam, e assim obter um vazamento. Eles conseguiram, oficialmente, encontrar falhas até mesmo nos processadores i7.
+
+3 - Contexto - Fundamentos para adaptar os algoritmos de tempo constante a atualidade moderna.
+Problema - Bases ultrapassadas dos algoritmos de tempo constante, que vem se tornando cada vez mais “exploráveis” com o tempo.
+Solução - Especulações de tempo constante (SCT), que proporciona fortes garantias contra todos os possíveis ataques (Não li o artigo inteiro ainda, mas isso se mostra muito interessante de ler. Como fizeram isso?).
+Resultados: Foram descobertas novas vulnerabilidades nas bibliotecas criptografadas utilizadas atualmente. Eles pretendem usar o trabalho feito para provar a eficiência das  contramedidas utilizadas e justificar a criação de novas contramedidas.
+ 
+4 - Logo ao iniciar a leitura, existe uma dificuldade ao identificar o tema, pois como grande parte das palavras usadas são novas para mim, e mais voltadas para a área de Ciências de Informação, tenho certa dificuldade ao interpretar as palavras. What means “Spectre Era”.
+(Algumas das dúvidas foram sendo sanadas com pesquisas no google e efetiva leitura do texto). O texto se mostra de difícil entendimento para um leigo na área, porém com uma leitura dedicada, e pesquisas auxiliares sendo feitas ao decorrer da leitura, é possível chegar ao bom entendimento dos contextos apresentados. Fiz a leitura do “Abstract” + Seção 1 + Seção 2 + Conclusão como fora recomendado pelo professor Fernando Magno Quintão.
+
+Zippy LL(1) Parsing with Derivatives
+()
+
+1 - 
