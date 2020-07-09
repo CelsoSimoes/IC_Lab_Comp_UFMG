@@ -1,0 +1,9 @@
+DENY
+EXCEPT
+  ALLOW Actors = Looker
+        Resources = CCN, EMAIL
+        Actions = Updates, Deletes
+  EXCEPT
+    DENY Actors = Bob
+         Resources = CCN
+         Actions = Deletes

@@ -1,0 +1,53 @@
+import pycvc4
+from pycvc4 import kinds
+
+if __name__ == "__main__":
+
+        slv = pycvc4.Solver()
+        slv.setOption("produce-models", "true")
+        slv.setLogic("S")
+
+        #Declaração do tipo String
+        string = slv.getStringSort()
+
+        #Strings constantes
+        action = slv.mkString("getObject")
+        principal_students = slv.mkString("students")
+        principal_tas = slv.mkString("tas")
+        resource = slv.mkString("cs240/")
+
+        #Poderia criar uma variável de string como:
+        #cs240_resource = slv.mkConst(string, "cs240_resouce")
+        #Que seria o recurso solicitado, que varia.
+        #Mas como é um exemplo simples ainda, farei somente uma concatenação
+        #Para representar o que seria a união da constante com a variável
+
+        #Criação das variáveis do recurso: Exame e Respostas.
+        exam_pdf = slv.mkConst(string, "Exam.pdf")
+        answer_pdf = slv.mkConst(string, "Answer.pdf")
+
+        #Concatenação do resource com o recurso especifico
+        resc_exam = slv.mkTerm(kinds.StringConcat, resource, exam_pdf)
+        resc_answer = slv.mkTerm(kinds.StringConcat, resource, answer_pdf)
+
+        #Formando expressão logica da politica X:
+        X0 = slv.mkTerm(kinds.And,
+                slv.mkTerm(kinds.StringToRegexp, action),
+                slv.mkTerm(kinds.StringToRegexp, principal_students),
+                slv.mkTerm(kinds.StringToRegexp, resc_exam))
+	X1 = slv.mkTerm(kinds.And,
+                slv.mkTerm(kinds.StringToRegexp, action),
+                slv.mkTerm(kinds.StringToRegexp, principal_tas),
+                slv.mkTerm(kinds.StringToRegexp, slv.mkTerm(kinds.Or,
+                        slv.mkTerm(kinds.StringToRegexp, resc_exam),
+                        slv.mkTerm(kinds.StringToRegexp, resc_answer))))
+
+        #Expressao final da politica X:
+        X = slv.mkTerm(kinds.Or,
+                slv.mkTerm(kinds.StringToRegexp, X0),
+                slv.mkTerm(kinds.StringToRegexp, X1))
+
+        print(X)
+
+        #Obs.: Na verdade o ideal seria colocar os iniciais:
+        #Action, resource e principal como variaveis e os outros como constantes
