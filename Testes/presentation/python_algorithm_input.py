@@ -118,32 +118,56 @@ Actors = {
 #     +-------+    +-------+
 #     |       |    |       |
 #     v       v    v       v
-# +---+-+    ++----+     +-+---+
-# |Alice |    |Bob |     |Jeff |
+# +---+-+    +-----+     +-+---+
+# |Alice |   | Bob |     |Jeff |
 # +-----+    +-----+     +-----+
 
 Resources = {
-    "Top": {"info", "Data"},
-    "info": {"CNN", "Ip"},
-    "Data": {"Ip", "SNN"},
-    "CNN": {},
-    "Ip": {},
-    "SNN": {}
+    "Top": {"claims"},
+    "claims": {"finance"},
+    "finance": {"customers", "companies"},
+    "customers": {"CCN"},
+    "companies": {"EMAIL", "SSN"},
+    "CCN": {},
+    "EMAIL": {},
+    "SSN": {}
 }
 
 #             +----+
 #             |Top |
 #             +----+
-#             |    |
-#             v    v
-#     +-------+    +-------+
-#     | Info |    | Data  |
-#     +-------+    +-------+
-#     |       |    |       |
-#     v       v    v       v
-# +---+-+    ++----+     +-+---+
-# | CNN |    | Ip  |     | SNN |
-# +-----+    +-----+     +-----+
+#               |
+#               v
+#           +-------+
+#           |claims |
+#           +-------+
+#               |
+#               v
+#           +-------+
+#           |finance|
+#     +---------+-----------+
+#    |          |           |
+#    v          v           v
+# +---+-+    +------+    +-----+
+# | CCN |    | EMAIL|    | SSN |
+# +-----+    +------+    +-----+
+
+Actions = {
+    "Top": {"Reads", "Deletes", "Updates"},
+    "Reads": {},
+    "Deletes": {},
+    "Updates": {}
+}
+
+#                 +----------+
+#                 |    Top   |
+#         +------------+------------+
+#         |            |            |
+#         v            v            v
+#     +-------+    +-------+    +-------+
+#     | Reads |    |Deletes|    |Updates|
+#     +-------+    +-------+    +-------+
+
 
 lattices = {"Actors": Actors, "Resources": Resources}
 
@@ -151,33 +175,33 @@ lattices = {"Actors": Actors, "Resources": Resources}
 # policy:
 # DENY
 # EXCEPT
-#   ALLOW Actors Analyst
-#         Resources CNN
+#   ALLOW Actors Looker
+#         Resources CCN, EMAIL
 #   EXCEPT
 #     DENY Actors Bob
-#          Resources CNN
+#          Resources CCN
 
 # these are the legalease clause translated from the above code
 # each clause is a trIple containing (DENY / ALLOW, attributes, except list of clauses (recursive))
 clauses = [
     ("DENY", {'Actors': {"Top"}, 'Resources': {"Top"}}, [
-        ("ALLOW", {'Actors': {"Analyst"}, 'Resources': {"CNN"}}, [
-            ("DENY", {'Actors': {"Bob"}, 'Resources': {"CNN"}}, [])
+        ("ALLOW", {'Actors': {"Looker"}, 'Resources': {"CCN", "EMAIL"}}, [
+            ("DENY", {'Actors': {"Bob"}, 'Resources': {"CCN"}}, [])
         ])
     ])
 ]
 
 # this is a Data dependency graph
 # for each test i'll create only one node meaning that actor X access resource Y
-nodes1 = [{'Actors': {"Bob"}, 'Resources': {"CNN"}}]  # Bob access Ip
-nodes2 = [{'Actors': {"Alice"}, 'Resources': {"CNN"}}]  # Alice access CNN
-nodes3 = [{'Actors': {"Jeff"}, 'Resources': {"CNN"}}]  # Jeff access CNN
+nodes1 = [{'Actors': {"Bob"}, 'Resources': {"CCN"}}]  # Bob access CCN
+nodes2 = [{'Actors': {"Alice"}, 'Resources': {"CCN"}}]  # Alice access CCN
+nodes3 = [{'Actors': {"Jeff"}, 'Resources': {"CCN"}}]  # Jeff access CCN
 
 # should return False as Bob can't access Ip
 print(validate(nodes1, clauses, lattices))
-# should return True as Alice can access CNN
+# should return True as Alice can access CCN
 print(validate(nodes2, clauses, lattices))
-# should return False as Jeff can't access CNN
+# should return False as Jeff can't access CCN
 print(validate(nodes3, clauses, lattices))
 
 # @TODO: so I don't need to handle "Key Error" exceptions in the algorithm, when generating the TG and TC sets, for every attribute I must generate a set, if there's no contraint in such attribute, then use an empty set.
